@@ -1,0 +1,107 @@
+body {
+    background: #f5f7fb;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(180deg, #0d6efd, #0b5ed7);
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.85);
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link.active {
+    background: #ffffff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+/* BRAND */
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+/* CONTENT */
+.content {
+    background: #f5f7fb;
+}
+
+/* CARDS */
+.card {
+    border: none;
+    border-radius: 14px;
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* HERO CARD */
+.dashboard-hero {
+    background: linear-gradient(135deg, #ffffff, #f0f6ff);
+}
+
+/* SUMMARY ICONS */
+.summary-icon {
+    font-size: 2rem;
+}
+
+/* TABLES */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* BADGES */
+.badge {
+    font-size: 12px;
+}
+
+/* AVATAR */
+.avatar {
+    width: 38px;
+    height: 38px;
+    font-weight: bold;
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: #0d6efd;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #0b5ed7;
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+    .sidebar {
+        width: 100%;
+        min-height: auto;
+        position: relative;
+    }
+
+    .admin-dashboard {
+        flex-direction: column;
+    }
+}

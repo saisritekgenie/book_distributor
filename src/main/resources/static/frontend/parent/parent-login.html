@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parent Login</title>
+</head>
+<body>
+
+<h2>Parent Login</h2>
+
+<input type="text" id="mobile" placeholder="Enter Mobile Number">
+
+<button onclick="parentLogin()">Login</button>
+
+<script>
+function parentLogin(){
+
+    const mobile = document.getElementById("mobile").value;
+
+    if(mobile !== ""){
+        window.location.href="parent.html";
+    }else{
+        alert("Enter Mobile Number");
+    }
+}
+</script>
+
+</body>
+</html>

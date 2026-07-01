@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolBook Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-5QphxYK0GfAi0GkSugJk2UyyNw5c3z4B6wyjv3Xb0vee6jnNg3dAZ+Q7qPfw1NXT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <aside class="sidebar bg-white shadow-sm">
+        <div class="sidebar-top px-4 py-4 border-bottom">
+            <div class="d-flex align-items-center gap-3">
+                <img src="images/img.png" alt="SchoolBook Logo" class="sidebar-logo">
+                <div>
+                    <h1 class="h5 mb-0">SchoolBook</h1>
+                    <small class="text-muted">Admin ERP</small>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav flex-column sidebar-nav px-4 py-3">
+            <a href="admin-dashboard.html" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="admin-dashboard.html#books" class="nav-link"><i class="bi bi-book-half"></i> Books</a>
+            <a href="admin-dashboard.html#upload" class="nav-link"><i class="bi bi-upload"></i> Upload Book Lists</a>
+            <a href="admin-dashboard.html#inventory" class="nav-link"><i class="bi bi-box-seam"></i> Inventory</a>
+            <a href="admin-dashboard.html#orders" class="nav-link"><i class="bi bi-cart-check"></i> Orders</a>
+            <a href="admin-dashboard.html#payments" class="nav-link"><i class="bi bi-cash-stack"></i> Payments</a>
+            <a href="admin-dashboard.html#reports" class="nav-link"><i class="bi bi-bar-chart-line-fill"></i> Reports</a>
+            <a href="admin-dashboard.html#students" class="nav-link"><i class="bi bi-people-fill"></i> Students</a>
+        </nav>
+
+        <div class="sidebar-footer px-4 py-4 mt-auto">
+            <div class="d-flex align-items-center justify-content-between">
+                <span class="text-muted">Need help?</span>
+                <button class="btn btn-primary btn-sm">Logout <i class="bi bi-box-arrow-right"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="topbar d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3 px-4 py-4 border-bottom bg-white shadow-sm">
+            <div>
+                <span class="badge bg-primary-soft text-primary mb-2">Admin Panel</span>
+                <h2 class="mb-1">SchoolBook Dashboard</h2>
+                <p class="text-muted mb-0">A modern ERP view for books, inventory, orders, payments and reports.</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="topbar-chip bg-light rounded-3 px-3 py-2">
+                    <i class="bi bi-calendar-check me-2"></i>
+                    <span id="dashboardDate">Loading date...</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm"><i class="bi bi-funnel"></i> Filter</button>
+            </div>
+        </header>
+
+        <section class="hero-card position-relative overflow-hidden mb-4">
+            <div class="hero-content row align-items-center gy-4">
+                <div class="col-lg-7">
+                    <span class="badge bg-info-soft text-info mb-3">School ERP Insights</span>
+                    <h3 class="fw-bold">Turn classroom book management into a smart operation.</h3>
+                    <p class="text-muted">Accessible analytics, inventory alerts, order tracking and payment monitoring in one secure dashboard.</p>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <button class="btn btn-primary">Create Book</button>
+                        <button class="btn btn-outline-primary">Upload Class List</button>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+                    <img src="images/hero.png" alt="School Hero" class="hero-image">
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-grid row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
+                <article class="stat-card p-4 shadow-sm bg-white rounded-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h6 class="mb-1">Total Books</h6>
+                            <p class="h2 mb-0" id="totalBooks">0</p>
+                        </div>
+                        <span class="stat-icon bg-blue text-white"><i class="bi bi-journal-bookmark"></i></span>
+                    </div>
+                    <p class="text-muted mb-0">Books available in the school inventory.</p>
+                </article>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <article class="stat-card p-4 shadow-sm bg-white rounded-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h6 class="mb-1">Total Orders</h6>
+                            <p class="h2 mb-0" id="totalOrders">0</p>
+                        </div>
+                        <span class="stat-icon bg-primary text-white"><i class="bi bi-cart-check"></i></span>
+                    </div>
+                    <p class="text-muted mb-0">Orders placed by parents and staff this term.</p>
+                </article>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <article class="stat-card p-4 shadow-sm bg-white rounded-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h6 class="mb-1">Total Payments</h6>
+                            <p class="h2 mb-0" id="totalPayments">0</p>
+                        </div>
+                        <span class="stat-icon bg-teal text-white"><i class="bi bi-cash-stack"></i></span>
+                    </div>
+                    <p class="text-muted mb-0">Invoices processed and payment entries recorded.</p>
+                </article>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <article class="stat-card p-4 shadow-sm bg-white rounded-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h6 class="mb-1">Inventory Stock</h6>
+                            <p class="h2 mb-0" id="inventoryStock">0</p>
+                        </div>
+                        <span class="stat-icon bg-blue-dark text-white"><i class="bi bi-box-seam"></i></span>
+                    </div>
+                    <p class="text-muted mb-0">Current available book units across all inventories.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="charts-section row g-3 mb-4">
+            <div class="col-xl-7">
+                <div class="card chart-card p-4 shadow-sm bg-white rounded-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <h5 class="mb-1">Revenue Trend</h5>
+                            <small class="text-muted">Monthly order value performance.</small>
+                        </div>
+                        <span class="badge bg-info-soft text-info">Live overview</span>
+                    </div>
+                    <div class="chart-bars" id="revenueTrend"></div>
+                </div>
+            </div>
+            <div class="col-xl-5">
+                <div class="card chart-card p-4 shadow-sm bg-white rounded-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <h5 class="mb-1">Inventory Health</h5>
+                            <small class="text-muted">Stock and low inventory alerts.</small>
+                        </div>
+                        <span class="badge bg-success-soft text-success" id="inventoryHealthBadge">Safe</span>
+                    </div>
+                    <div class="inventory-metrics">
+                        <div class="metric-item mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Available Stock</span>
+                                <strong id="availableStock">0</strong>
+                            </div>
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar bg-primary" id="stockProgress" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Low-stock titles</span>
+                                <strong id="lowStockCount">0</strong>
+                            </div>
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar bg-danger" id="lowStockProgress" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tables-section row g-3 mb-4">
+            <div class="col-xl-12">
+                <div class="card table-card p-4 shadow-sm bg-white rounded-4" id="inventory">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
+                        <div>
+                            <h5 class="mb-1">Inventory Table</h5>
+                            <small class="text-muted">Search and paginate through class-wise book stock.</small>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input id="inventorySearch" type="search" placeholder="Search books...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Available</th>
+                                    <th>Minimum</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <tr><td colspan="4" class="text-center text-muted py-4">Loading inventory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-footer d-flex flex-column flex-md-row align-items-center justify-content-between gap-3 mt-4">
+                        <span class="text-muted" id="inventorySummary">Showing 0 of 0 items</span>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0" id="inventoryPagination"></ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="card table-card p-4 shadow-sm bg-white rounded-4" id="orders">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <h5 class="mb-1">Orders Monitoring</h5>
+                            <small class="text-muted">Latest order activity from students.</small>
+                        </div>
+                        <span class="badge bg-primary">Updated</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Student</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr><td colspan="4" class="text-center text-muted py-4">Loading orders...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="card table-card p-4 shadow-sm bg-white rounded-4" id="payments">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div>
+                            <h5 class="mb-1">Payments Monitoring</h5>
+                            <small class="text-muted">Recent invoice status and payment dates.</small>
+                        </div>
+                        <span class="badge bg-success">Secure</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Date</th>
+                                    <th>Order</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsTableBody">
+                                <tr><td colspan="3" class="text-center text-muted py-4">Loading payments...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reports-section row g-3 mb-4" id="reports">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card report-card p-4 shadow-sm bg-white rounded-4">
+                    <h6 class="mb-3">School Orders</h6>
+                    <p class="h3 mb-2" id="reportOrders">0</p>
+                    <span class="text-muted">Order requests this month.</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card report-card p-4 shadow-sm bg-white rounded-4">
+                    <h6 class="mb-3">Payment Rate</h6>
+                    <p class="h3 mb-2" id="reportPaymentRate">0%</p>
+                    <span class="text-muted">Invoices completed.</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card report-card p-4 shadow-sm bg-white rounded-4">
+                    <h6 class="mb-3">Stock Alerts</h6>
+                    <p class="h3 mb-2" id="reportStockAlerts">0</p>
+                    <span class="text-muted">Books below minimum.</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6" id="students">
+                <div class="card report-card p-4 shadow-sm bg-white rounded-4">
+                    <h6 class="mb-3">Student Count</h6>
+                    <p class="h3 mb-2" id="reportStudents">0</p>
+                    <span class="text-muted">Active student profiles.</span>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="js/admin-dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3R7s3bVZr5p5gNnYISL5HCJ2Jy7W5JfJHZH1f6Ntt/g+VVgbpcoHqxvk4aWZXBm" crossorigin="anonymous"></script>
+</body>
+</html>

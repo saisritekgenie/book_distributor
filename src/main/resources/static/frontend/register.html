@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School ERP - Student Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f5e9 100%);
+            min-height: 100vh;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Outfit', sans-serif;
+        }
+        .stat-card {
+            border: none;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .register-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .register-header {
+            background: var(--success-gradient);
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        .table-card {
+            border: none;
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .table th {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: #475569;
+            background-color: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 14px 16px;
+        }
+        .table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1060;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="container py-5">
+
+        <!-- Page Title -->
+        <div class="text-center mb-4">
+            <h1 class="fw-bold" style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                <i class="bi bi-mortarboard-fill" style="-webkit-text-fill-color: #4f46e5;"></i> Student Registration
+            </h1>
+            <p class="text-muted">Register a new student</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- Registration Form -->
+            <div class="col-lg-6">
+                <div class="card register-card">
+                    <div class="register-header">
+                        <i class="bi bi-person-plus-fill fs-1"></i>
+                        <h3 class="fw-bold mt-2 mb-1">Student Registration</h3>
+                        <p class="mb-0 opacity-75">Register a new student</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Student Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" id="studentName" placeholder="Enter student name" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Roll Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-hash"></i></span>
+                                    <input type="text" class="form-control" id="rollNumber" placeholder="Enter roll number" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Class</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-mortarboard"></i></span>
+                                    <input type="text" class="form-control" id="studentClass" placeholder="e.g. Grade 10" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">School Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                    <input type="text" class="form-control" id="schoolName" placeholder="Enter school name" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Parent Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-people"></i></span>
+                                    <input type="text" class="form-control" id="parentName" placeholder="Enter parent name" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                                    <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter phone number" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-bold rounded-3">
+                                <i class="bi bi-check-circle me-2"></i> Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ==========================================
+        // IN-MEMORY STATE (No backend, No localStorage)
+        // ==========================================
+        let appState = {
+            students: [],
+            staff: [],
+            orders: [],
+            books: []
+        };
+
+        // ==========================================
+        // DOM READY
+        // ==========================================
+        document.addEventListener("DOMContentLoaded", () => {
+            renderAll();
+
+            const form = document.getElementById("registerForm");
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const studentName = document.getElementById("studentName").value.trim();
+                const rollNumber = document.getElementById("rollNumber").value.trim();
+                const studentClass = document.getElementById("studentClass").value.trim();
+                const schoolName = document.getElementById("schoolName").value.trim();
+                const parentName = document.getElementById("parentName").value.trim();
+                const phoneNumber = document.getElementById("phoneNumber").value.trim();
+
+                // 1. Validate all fields are filled
+                if (!studentName || !rollNumber || !studentClass || !schoolName || !parentName || !phoneNumber) {
+                    showToast("Please fill in all fields.", "danger");
+                    return;
+                }
+
+                // 2. Create student object
+                const student = {
+                    studentName: studentName,
+                    rollNumber: rollNumber,
+                    studentClass: studentClass,
+                    schoolName: schoolName,
+                    parentName: parentName,
+                    phoneNumber: phoneNumber
+                };
+
+                // 3. Push into appState.students
+                appState.students.push(student);
+
+                // Save to localStorage for dashboard and payment use
+                localStorage.setItem("parentName", parentName);
+                localStorage.setItem("studentName", studentName);
+                localStorage.setItem("studentClass", studentClass);
+                localStorage.setItem("schoolName", schoolName);
+                localStorage.setItem("rollNumber", rollNumber);
+                localStorage.setItem("phoneNumber", phoneNumber);
+
+                // Push student to the students array in localStorage
+                let studentsList = JSON.parse(localStorage.getItem("students")) || [];
+                studentsList.push(student);
+                localStorage.setItem("students", JSON.stringify(studentsList));
+
+                // Send student to backend database if online
+                fetch("http://localhost:8081/api/students", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        studentName: studentName,
+                        className: studentClass,
+                        section: "A",
+                        parentMobile: phoneNumber
+                    })
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error("API post failed");
+                    return res.json();
+                })
+                .then(savedStudent => {
+                    console.log("Student saved to backend database:", savedStudent);
+                    if (savedStudent && savedStudent.studentId) {
+                        localStorage.setItem("studentId", savedStudent.studentId);
+                    }
+                })
+                .catch(err => {
+                    console.warn("Spring Boot backend offline, student saved locally only", err);
+                });
+
+                // 4. Show success alert
+                showToast("Registration Successful! Redirecting to Parent Dashboard...", "success");
+
+                // 5. Clear form fields
+                form.reset();
+
+                // 6. Re-render students list + dashboard counts
+                renderAll();
+
+                // 7. Redirect to Parent Dashboard after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = "parent/parent.html";
+                }, 1500);
+            });
+        });
+
+        // ==========================================
+        // RENDER ALL
+        // ==========================================
+        function renderAll() {
+            renderDashboard();
+            renderStudents();
+        }
+
+        // ==========================================
+        // RENDER DASHBOARD COUNTS
+        // ==========================================
+        function renderDashboard() {
+            let elStudents = document.getElementById("stat-students");
+            if (elStudents) elStudents.textContent = appState.students.length || "0";
+            
+            let elBooks = document.getElementById("stat-books");
+            if (elBooks) elBooks.textContent = appState.books.reduce((sum, b) => sum + (b.quantity || 0), 0) || "0";
+            
+            let elOrders = document.getElementById("stat-orders");
+            if (elOrders) elOrders.textContent = appState.orders.length || "0";
+            
+            let elStaff = document.getElementById("stat-staff");
+            if (elStaff) elStaff.textContent = appState.staff.length || "0";
+        }
+
+        // ==========================================
+        // RENDER STUDENTS TABLE
+        // ==========================================
+        function renderStudents() {
+            const tbody = document.getElementById("students-table-body");
+            if (!tbody) return;
+
+            if (appState.students.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-5">
+                            <i class="bi bi-person-x fs-1 d-block mb-2 opacity-50"></i>
+                            No students registered yet
+                        </td>
+                    </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = appState.students.map(s => `
+                <tr>
+                    <td><strong>${s.rollNumber || "-"}</strong></td>
+                    <td>${s.studentName || "-"}</td>
+                    <td><span class="badge bg-light text-dark">${s.studentClass || "-"}</span></td>
+                    <td>${s.schoolName || "-"}</td>
+                    <td>${s.parentName || "-"}</td>
+                    <td>${s.phoneNumber || "-"}</td>
+                </tr>
+            `).join("");
+        }
+
+        // ==========================================
+        // TOAST NOTIFICATION
+        // ==========================================
+        function showToast(message, type) {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast align-items-center text-white bg-${type || "info"} border-0 show mb-2`;
+            toast.role = "alert";
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body fw-semibold">${message || "-"}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
