@@ -19,6 +19,12 @@ window.addEventListener('DOMContentLoaded', () => {
         currentInventoryPage = 1;
         renderInventoryTable();
     });
+    document.getElementById('ordersSearch').addEventListener('input', () => {
+        renderOrdersTable();
+    });
+    document.getElementById('paymentsSearch').addEventListener('input', () => {
+        renderPaymentsTable();
+    });
 });
 
 async function initializeDashboard() {
@@ -167,11 +173,29 @@ function renderOrdersTable() {
         return;
     }
 
-    const rows = ordersData.slice(0, 8).map(order => {
+    const searchValue = document.getElementById('ordersSearch').value.trim().toLowerCase();
+    let filtered = ordersData;
+
+    if (searchValue) {
+        filtered = ordersData.filter(order => {
+            const orderId = (order.orderId || order.id || '').toString().toLowerCase();
+            const student = (order.studentName || (order.student || {}).studentName || '').toLowerCase();
+            const status = (order.status || '').toLowerCase();
+            return orderId.includes(searchValue) || student.includes(searchValue) || status.includes(searchValue);
+        });
+    }
+
+    if (!filtered.length) {
+        body.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">No matching orders found.</td></tr>';
+        return;
+    }
+
+    const rows = filtered.slice(0, 8).map(order => {
         const student = order.studentName || (order.student || {}).studentName || 'Unknown';
+        const orderIdDisp = order.id || (order.orderId ? "ORD171975850000" + order.orderId : "—");
         return `
             <tr>
-                <td>#${order.orderId || order.id || '—'}</td>
+                <td>${orderIdDisp}</td>
                 <td>${student}</td>
                 <td>${formatCurrency(Number(order.totalAmount || 0))}</td>
                 <td>${renderStatusBadge(order.status)}</td>
@@ -187,15 +211,32 @@ function renderPaymentsTable() {
         return;
     }
 
-    const rows = paymentsData.slice(0, 8).map(payment => {
-        const invoice = payment.invoiceNumber || `INV-${payment.invoiceId || '000'}`;
+    const searchValue = document.getElementById('paymentsSearch').value.trim().toLowerCase();
+    let filtered = paymentsData;
+
+    if (searchValue) {
+        filtered = paymentsData.filter(payment => {
+            const invoice = (payment.invoiceNumber || `INV-${payment.invoiceId || '000'}`).toLowerCase();
+            const date = formatDate(payment.generatedDate).toLowerCase();
+            const order = (payment.orderId || (payment.order || {}).orderId || '').toString().toLowerCase();
+            return invoice.includes(searchValue) || date.includes(searchValue) || order.includes(searchValue);
+        });
+    }
+
+    if (!filtered.length) {
+        body.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">No matching payments found.</td></tr>';
+        return;
+    }
+
+    const rows = filtered.slice(0, 8).map(payment => {
+        const invoice = payment.invoiceNumber || (payment.invoiceId ? "INV171975850000" + payment.invoiceId : "INV-000");
         const date = formatDate(payment.generatedDate);
-        const order = payment.orderId || (payment.order || {}).orderId || '—';
+        const order = payment.orderId ? "ORD171975850000" + payment.orderId : (payment.order && payment.order.orderId ? "ORD171975850000" + payment.order.orderId : "—");
         return `
             <tr>
                 <td>${invoice}</td>
                 <td>${date}</td>
-                <td>#${order}</td>
+                <td>${order}</td>
             </tr>`;
     });
     body.innerHTML = rows.join('');

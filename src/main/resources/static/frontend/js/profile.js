@@ -1,22 +1,23 @@
 window.onload = function(){
 
+    let parentVal = localStorage.getItem("parentName") || "";
+    document.getElementById("name").value = parentVal;
+    
+    if (parentVal && document.getElementById("profileHeaderName")) {
+        document.getElementById("profileHeaderName").textContent = parentVal;
+    }
 
-document.getElementById("name").value =
-    localStorage.getItem("parentName") || "";
+    document.getElementById("email").value =
+        localStorage.getItem("email") || "";
 
-document.getElementById("email").value =
-    localStorage.getItem("email") || "";
+    document.getElementById("mobile").value =
+        localStorage.getItem("mobile") || "";
 
-document.getElementById("mobile").value =
-    localStorage.getItem("mobile") || "";
+    document.getElementById("studentName").value =
+        localStorage.getItem("studentName") || "";
 
-document.getElementById("studentName").value =
-    localStorage.getItem("studentName") || "";
-
-document.getElementById("className").value =
-    localStorage.getItem("className") || "";
-
-
+    document.getElementById("className").value =
+        localStorage.getItem("className") || "";
 };
 
 function saveProfile(){

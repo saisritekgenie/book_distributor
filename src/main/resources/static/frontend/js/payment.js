@@ -36,9 +36,64 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     let studentName = localStorage.getItem("studentName") || "-";
     let studentClass = localStorage.getItem("studentClass") || "-";
 
-    let total = cart.reduce((sum, b) => sum + Number(b.price || 0), 0);
-    let orderId = "ORD" + Date.now();
-    let invoiceId = "INV" + Date.now();
+    let total = cart.reduce((sum, b) => sum + Number(b.price || 0) * (b.qty || 1), 0);
+    
+    // Generate sequential IDs
+    let ordersList = JSON.parse(localStorage.getItem("orders")) || [];
+    let dbOrders = [];
+    try {
+        let res = await fetch("http://localhost:8081/api/orders");
+        if (res.ok) {
+            dbOrders = await res.json();
+        }
+    } catch (e) {
+        console.warn("Could not fetch database orders for ID calculation");
+    }
+    let allOrders = [...ordersList, ...dbOrders];
+
+    let baseId = 1719758500000;
+    let nextSeq = 1;
+    if (allOrders.length > 0) {
+        let maxSeq = 0;
+        allOrders.forEach(o => {
+            let idStr = (o.id || o.orderId || "").toString().replace("ORD", "");
+            let num = Number(idStr);
+            if (!isNaN(num) && num > baseId) {
+                let seq = num - baseId;
+                if (seq < 1000000 && seq > maxSeq) maxSeq = seq;
+            }
+        });
+        nextSeq = maxSeq + 1;
+    }
+    let orderId = "ORD171975850000" + nextSeq;
+
+    let invoicesList = JSON.parse(localStorage.getItem("invoices")) || [];
+    let dbInvoices = [];
+    try {
+        let res = await fetch("http://localhost:8081/api/invoices");
+        if (res.ok) {
+            dbInvoices = await res.json();
+        }
+    } catch (e) {
+        console.warn("Could not fetch database invoices for ID calculation");
+    }
+    let allInvoices = [...invoicesList, ...dbInvoices];
+
+    let nextInvSeq = 1;
+    if (allInvoices.length > 0) {
+        let maxInvSeq = 0;
+        allInvoices.forEach(i => {
+            let idStr = (i.invoiceId || i.invoiceNumber || "").toString().replace("INV", "");
+            let num = Number(idStr);
+            if (!isNaN(num) && num > baseId) {
+                let seq = num - baseId;
+                if (seq < 1000000 && seq > maxInvSeq) maxInvSeq = seq;
+            }
+        });
+        nextInvSeq = maxInvSeq + 1;
+    }
+    let invoiceId = "INV171975850000" + nextInvSeq;
+
 
     // Register student dynamically in localStorage if not already present
     let students = JSON.parse(localStorage.getItem("students")) || [];
@@ -100,18 +155,21 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     }
 
     // 2. Create Order
+    let resolvedSection = (exists ? exists.section : null) || "A";
     let newOrder = {
         id: orderId,
         parent: parentName,
         student: studentName,
         studentClass: studentClass,
-        books: cart.map(b => b.name || "-").join(", "),
-        bookCount: cart.length,
+        books: cart.map(b => `${b.name || "-"} (x${b.qty || 1})`).join(", "),
+        bookCount: cart.reduce((sum, b) => sum + (b.qty || 1), 0),
         total: total,
         status: "Pending",
         date: new Date().toLocaleDateString(),
         paymentMethod: paymentMethod,
-        paymentStatus: paymentStatus
+        paymentStatus: paymentStatus,
+        parentMobile: phoneNumber,
+        section: resolvedSection
     };
 
     // 3. Push to orders in localStorage (Admin reads this)
@@ -130,7 +188,9 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
         totalAmount: total,
         invoiceDate: new Date().toLocaleDateString(),
         paymentMethod: paymentMethod,
-        paymentStatus: paymentStatus
+        paymentStatus: paymentStatus,
+        parentMobile: phoneNumber,
+        section: resolvedSection
     };
 
     // 5. Save invoice to localStorage
@@ -145,10 +205,19 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     localStorage.setItem("cart", JSON.stringify([]));
 
     let booksList = JSON.parse(localStorage.getItem("books")) || [];
+    let cleanClass = (val) => {
+        if (!val) return "";
+        let matches = val.toString().match(/\d+/);
+        return matches ? matches[0] : val.toString().trim().toLowerCase();
+    };
     cart.forEach(cartItem => {
-        let book = booksList.find(b => b.name.toLowerCase() === cartItem.name.toLowerCase() && b.class == studentClass);
+        let book = booksList.find(b => 
+            b.name.toLowerCase() === cartItem.name.toLowerCase() && 
+            cleanClass(b.class) === cleanClass(studentClass)
+        );
         if (book && book.qty > 0) {
-            book.qty -= 1;
+            book.qty -= (cartItem.qty || 1);
+            if (book.qty < 0) book.qty = 0;
         }
     });
     localStorage.setItem("books", JSON.stringify(booksList));

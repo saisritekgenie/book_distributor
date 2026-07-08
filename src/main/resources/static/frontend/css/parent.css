@@ -1,260 +1,379 @@
-/* ===========================
-   GENERAL
-=========================== */
+/* ==========================================================================
+   PREMIUM CUSTOM DESIGN SYSTEM: SCHOOLBOOK MANAGEMENT SYSTEM
+   ========================================================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --primary-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --primary-color: #0f172a;
+    --secondary-gradient: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+    --btn-success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+    --hover-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.12), 0 10px 10px -6px rgba(15, 23, 42, 0.08);
+    --border-color: #f1f5f9;
 }
 
-body{
-    background:#f5f7fb;
+[data-theme="dark"] {
+    --bg-main: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+    --hover-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -6px rgba(0, 0, 0, 0.25);
 }
 
-/* ===========================
-   NAVBAR
-=========================== */
-
-.navbar{
-    padding:15px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
-.navbar-brand{
-    font-size:24px;
-    font-weight:bold;
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
 }
 
-/* ===========================
-   DASHBOARD CARD
-=========================== */
-
-.card{
-    border:none;
-    border-radius:15px;
-    transition:.3s;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
 }
 
-.card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 15px 30px rgba(0,0,0,.15);
+/* ==========================================================================
+   NAVBAR (HEADER)
+   ========================================================================== */
+.navbar {
+    background: var(--primary-gradient) !important;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ===========================
-   COMPLETE PACKAGE
-=========================== */
-
-.border-primary{
-    border-left:6px solid #0d6efd !important;
+.navbar-brand {
+    font-size: 26px;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.card-header{
-    border-radius:15px 15px 0 0 !important;
+.navbar .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
-.card-header h5{
-    font-weight:bold;
+.navbar .btn-outline-light:hover {
+    background: #ffffff;
+    color: var(--primary-color);
+    border-color: #ffffff;
+    transform: translateY(-1px);
 }
 
-.btn-success{
-    font-weight:bold;
+.navbar .btn-light {
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-color) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
 }
 
-/* ===========================
-   BOOK CARDS
-=========================== */
-
-.card-img-top{
-
-    height:220px;
-
-    object-fit:cover;
-
-    border-radius:15px 15px 0 0;
-
+.navbar .btn-light:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
 }
 
-.card-body{
-
-    text-align:center;
-
+/* ==========================================================================
+   CARDS
+   ========================================================================== */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 18px !important;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
 }
 
-.card-body h5{
-
-    font-weight:bold;
-
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
 }
 
-.card-body p{
-
-    color:#777;
-
-    min-height:45px;
-
+.card-body {
+    padding: 24px;
 }
 
-.card-body button{
-
-    border-radius:10px;
-
+/* ==========================================================================
+   CHILD & CLASS SELECTOR CARD
+   ========================================================================== */
+.select-class-card {
+    background: #ffffff;
+    border-left: 6px solid var(--primary-color) !important;
 }
 
-/* Hover */
-
-.card:hover img{
-
-    transform:scale(1.05);
-
-    transition:.4s;
-
+.form-select {
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    padding: 10px 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
 }
 
-/* ===========================
-   PRICE
-=========================== */
-
-.text-primary{
-
-    font-size:24px;
-
-    font-weight:bold;
-
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
-/* ===========================
-   SHOPPING CART
-=========================== */
-
-.sticky-top{
-
-    top:20px;
-
+/* ==========================================================================
+   COMPLETE CURRICULUM PACKAGE CARD
+   ========================================================================== */
+.border-primary {
+    border: 1.5px solid rgba(79, 70, 229, 0.15) !important;
+    border-left: 6px solid var(--primary-color) !important;
 }
 
-#cartItems{
-
-    min-height:250px;
-
-    max-height:300px;
-
-    overflow:auto;
-
+.card-header.bg-primary {
+    background: var(--primary-gradient) !important;
+    padding: 18px 24px;
+    border-bottom: none;
 }
 
-#cartItems li{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:10px;
-
-    border-radius:8px;
-
+.card-header h5 {
+    font-size: 1.15rem;
+    letter-spacing: 0.2px;
 }
 
-#cartTotal{
-
-    color:green;
-
-    font-weight:bold;
-
-    font-size:28px;
-
+/* ==========================================================================
+   TEXTBOOK ITEMS & GRID
+   ========================================================================== */
+.card-img-top {
+    height: 240px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+    transition: transform 0.5s ease;
 }
 
-/* ===========================
-   BUTTONS
-=========================== */
-
-.btn{
-
-    border-radius:10px;
-
+.book-card:hover .card-img-top {
+    transform: scale(1.04);
 }
 
-.btn-primary{
-
-    transition:.3s;
-
+.book-card .card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
 }
 
-.btn-primary:hover{
-
-    transform:scale(1.03);
-
+.book-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
 }
 
-.btn-success:hover{
-
-    transform:scale(1.03);
-
+.book-desc {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 12px;
 }
 
-/* ===========================
-   SELECT BOX
-=========================== */
-
-.form-select{
-
-    border-radius:10px;
-
+.text-primary {
+    color: var(--primary-color) !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+/* ==========================================================================
+   SIDEBAR SHOPPING CART (RIGHT COLUMN)
+   ========================================================================== */
+.sticky-cart-sidebar {
+    position: sticky;
+    top: 90px;
+    z-index: 1020;
+}
 
-@media(max-width:992px){
+.cart-card {
+    border: 1px solid var(--border-color);
+}
 
-    .sticky-top{
+.cart-header-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 12px;
+}
 
-        position:relative !important;
+#cartItems {
+    min-height: 200px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
 
-        margin-top:30px;
+#cartItems::-webkit-scrollbar {
+    width: 6px;
+}
+#cartItems::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+}
 
+#cartItems li {
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+#cartItems li:hover {
+    background: #f1f5f9;
+}
+
+.cart-item-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cart-item-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.cart-item-price {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Quantity controls in list */
+.cart-qty-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 4px;
+}
+
+#cartTotal {
+    font-family: 'Outfit', sans-serif;
+    color: #10b981;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+/* ==========================================================================
+   BUTTON STYLE MODS
+   ========================================================================== */
+.btn {
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    border: none;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-gradient);
+    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+}
+
+.btn-success {
+    background: var(--btn-success-gradient);
+    border: none;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.btn-success:hover {
+    background: var(--btn-success-gradient);
+    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50% !important;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.qty-btn:hover {
+    background: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+/* Wishlist Floating Heart Button Overlay */
+.wishlist-heart-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 15;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.wishlist-heart-btn:hover {
+    transform: scale(1.1);
+    background: #ffffff;
+}
+.wishlist-heart-btn i {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* ========================================================================== */
+   RESPONSIVE DESIGN CONTROLS
+   ========================================================================== */
+@media(max-width: 992px) {
+    .sticky-cart-sidebar {
+        position: relative !important;
+        margin-top: 30px;
+        top: 0;
     }
-
-}
-
-@media(max-width:768px){
-
-    .navbar-brand{
-
-        font-size:20px;
-
-    }
-
-    h3{
-
-        font-size:24px;
-
-    }
-
-    .card-img-top{
-
-        height:180px;
-
-    }
-
-}
-
-@media(max-width:576px){
-
-    .card-img-top{
-
-        height:170px;
-
-    }
-
-    .text-primary{
-
-        font-size:20px;
-
-    }
-
 }
