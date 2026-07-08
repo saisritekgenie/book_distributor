@@ -12,7 +12,7 @@ async function loadStaffOrders() {
 
     let dbOrders = [];
     try {
-        let res = await fetch("http://localhost:8081/api/orders");
+        let res = await fetch("https://book-distributor.onrender.com/api/orders");
         if (res.ok) {
             dbOrders = await res.json();
         }
@@ -306,7 +306,7 @@ async function approveOrder(id) {
 
     if (isApi) {
         try {
-            let res = await fetch(`http://localhost:8081/api/orders/${orderId}`, {
+            let res = await fetch(`https://book-distributor.onrender.com/api/orders/${orderId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -349,7 +349,7 @@ async function deliverOrder(id) {
 
     if (isApi) {
         try {
-            let res = await fetch(`http://localhost:8081/api/orders/${orderId}`, {
+            let res = await fetch(`https://book-distributor.onrender.com/api/orders/${orderId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -405,7 +405,7 @@ async function loadStaffInvoices() {
 
     let dbInvoices = [];
     try {
-        let res = await fetch("http://localhost:8081/api/invoices");
+        let res = await fetch("https://book-distributor.onrender.com/api/invoices");
         if (res.ok) {
             dbInvoices = await res.json();
         }
@@ -489,7 +489,7 @@ async function scanQR() {
     
     // Also try to fetch backend invoices if online to align
     try {
-        let resInv = await fetch("http://localhost:8081/api/invoices");
+        let resInv = await fetch("https://book-distributor.onrender.com/api/invoices");
         if (resInv.ok) {
             invoices = await resInv.json();
         }
@@ -596,7 +596,7 @@ loadStaffInvoices();
 // ==============================
 if (typeof SockJS !== 'undefined' && typeof Stomp !== 'undefined') {
     try {
-        let socket = new SockJS("http://localhost:8081/ws");
+        let socket = new SockJS("https://book-distributor.onrender.com/ws");
         let stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function () {
@@ -663,7 +663,7 @@ window.viewReceipt = async function(orderId) {
     // Load student mobile from localStorage and database API
     let students = JSON.parse(localStorage.getItem("students")) || [];
     try {
-        let res = await fetch("http://localhost:8081/api/students");
+        let res = await fetch("https://book-distributor.onrender.com/api/students");
         if (res.ok) {
             let dbStudents = await res.json();
             dbStudents.forEach(dbS => {

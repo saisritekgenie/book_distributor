@@ -252,7 +252,7 @@
             // 4. Try fetching from backend if online
             if (resolvedParentMobile === "-" || resolvedSection === "-") {
                 try {
-                    const res = await fetch("http://localhost:8081/api/students");
+                    const res = await fetch("https://book-distributor.onrender.com/api/students");
                     if (res.ok) {
                         const dbStudents = await res.json();
                         let dbMatched = dbStudents.find(s => s.studentName && inv.studentName && s.studentName.toLowerCase().trim() === inv.studentName.toLowerCase().trim());

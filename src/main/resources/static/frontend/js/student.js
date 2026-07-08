@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8081/api/students";
+const API_URL = "https://book-distributor.onrender.com/api/students";
 let currentStudents = [];
 let isApiCached = true;
 let selectedClassFilter = "All";
@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Post to backend database
             try {
-                let res = await fetch("http://localhost:8081/api/students", {
+                let res = await fetch("https://book-distributor.onrender.com/api/students", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({

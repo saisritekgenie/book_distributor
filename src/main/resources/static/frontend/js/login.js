@@ -51,7 +51,7 @@ async function login() {
     // Dynamic Parent/Student lookup (to allow logging in any previously registered parent)
     let students = JSON.parse(localStorage.getItem("students")) || [];
     try {
-        let res = await fetch("http://localhost:8081/api/students");
+        let res = await fetch("https://book-distributor.onrender.com/api/students");
         if (res.ok) {
             let dbStudents = await res.json();
             dbStudents.forEach(dbS => {

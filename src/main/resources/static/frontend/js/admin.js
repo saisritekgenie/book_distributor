@@ -1,7 +1,7 @@
 // ==============================
 // CONFIG
 // ==============================
-const BASE_URL = "http://localhost:8081/api";
+const BASE_URL = "https://book-distributor.onrender.com/api";
 
 // ==============================
 // GLOBAL STATE
@@ -705,7 +705,7 @@ initAdmin();
 // ==============================
 if (typeof SockJS !== 'undefined' && typeof Stomp !== 'undefined') {
     try {
-        let socket = new SockJS("http://localhost:8081/ws");
+        let socket = new SockJS("https://book-distributor.onrender.com/ws");
         let stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function () {
@@ -796,7 +796,7 @@ window.viewReceipt = async function(orderId) {
     // Load student mobile from localStorage and database API
     let students = JSON.parse(localStorage.getItem("students")) || [];
     try {
-        let res = await fetch("http://localhost:8081/api/students");
+        let res = await fetch("https://book-distributor.onrender.com/api/students");
         if (res.ok) {
             let dbStudents = await res.json();
             dbStudents.forEach(dbS => {

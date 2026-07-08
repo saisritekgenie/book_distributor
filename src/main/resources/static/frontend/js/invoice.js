@@ -1,4 +1,4 @@
-fetch("http://localhost:8081/api/invoices")
+fetch("https://book-distributor.onrender.com/api/invoices")
 .then(response => response.json())
 .then(data => {
 

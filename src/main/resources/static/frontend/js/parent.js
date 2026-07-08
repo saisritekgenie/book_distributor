@@ -308,7 +308,7 @@ async function placeOrder() {
     // Fetch database orders to avoid sequence duplication
     let dbOrders = [];
     try {
-        let res = await fetch("http://localhost:8081/api/orders");
+        let res = await fetch("https://book-distributor.onrender.com/api/orders");
         if (res.ok) {
             dbOrders = await res.json();
         }
