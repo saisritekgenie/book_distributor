@@ -42,7 +42,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     let ordersList = JSON.parse(localStorage.getItem("orders")) || [];
     let dbOrders = [];
     try {
-        let res = await fetch("http://localhost:8081/api/orders");
+        let res = await fetch("https://book-distributor.onrender.com/api/orders");
         if (res.ok) {
             dbOrders = await res.json();
         }
@@ -70,7 +70,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     let invoicesList = JSON.parse(localStorage.getItem("invoices")) || [];
     let dbInvoices = [];
     try {
-        let res = await fetch("http://localhost:8081/api/invoices");
+        let res = await fetch("https://book-distributor.onrender.com/api/invoices");
         if (res.ok) {
             dbInvoices = await res.json();
         }
@@ -120,7 +120,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
     if (studentName !== "-") {
         try {
             // Check if student already exists in the backend database
-            let resList = await fetch("http://localhost:8081/api/students");
+            let resList = await fetch("https://book-distributor.onrender.com/api/students");
             if (resList.ok) {
                 let dbStudents = await resList.json();
                 let matched = dbStudents.find(s => s.studentName && s.studentName.toLowerCase().trim() === studentName.toLowerCase().trim());
@@ -129,7 +129,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
                     localStorage.setItem("studentId", studentIdVal);
                 } else {
                     // Create student in the database dynamically
-                    let resCreate = await fetch("http://localhost:8081/api/students", {
+                    let resCreate = await fetch("https://book-distributor.onrender.com/api/students", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -224,7 +224,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
 
     // 7. Send order to backend database if online using the verified studentIdVal
     try {
-        let resOrder = await fetch("http://localhost:8081/api/orders", {
+        let resOrder = await fetch("https://book-distributor.onrender.com/api/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -259,7 +259,7 @@ async function placeOrderAndInvoice(paymentMethod, paymentStatus) {
                 }
 
                 try {
-                    let resInvoice = await fetch("http://localhost:8081/api/invoices", {
+                    let resInvoice = await fetch("https://book-distributor.onrender.com/api/invoices", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({

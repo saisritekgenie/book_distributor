@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8081/api/orders";
+const API_URL = "https://book-distributor.onrender.com/api/orders";
 
 function loadOrders() {
     let container = document.getElementById("ordersContainer");

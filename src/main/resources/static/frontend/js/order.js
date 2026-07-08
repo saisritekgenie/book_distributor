@@ -7,7 +7,7 @@ async function loadOrders() {
 
     let dbOrders = [];
     try {
-        let res = await fetch("http://localhost:8081/api/orders");
+        let res = await fetch("https://book-distributor.onrender.com/api/orders");
         if (res.ok) {
             dbOrders = await res.json();
         }
@@ -101,7 +101,7 @@ async function updateStatus(index, status) {
 
     if (isApi) {
         try {
-            let res = await fetch(`http://localhost:8081/api/orders/${id}`, {
+            let res = await fetch(`https://book-distributor.onrender.com/api/orders/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -141,7 +141,7 @@ async function deleteOrder(index) {
 
         if (isApi) {
             try {
-                let res = await fetch(`http://localhost:8081/api/orders/${id}`, {
+                let res = await fetch(`https://book-distributor.onrender.com/api/orders/${id}`, {
                     method: "DELETE"
                 });
                 if (res.ok) {
@@ -256,7 +256,7 @@ window.viewReceipt = async function(orderId) {
     // Load student mobile from localStorage and database API
     let students = JSON.parse(localStorage.getItem("students")) || [];
     try {
-        let res = await fetch("http://localhost:8081/api/students");
+        let res = await fetch("https://book-distributor.onrender.com/api/students");
         if (res.ok) {
             let dbStudents = await res.json();
             dbStudents.forEach(dbS => {

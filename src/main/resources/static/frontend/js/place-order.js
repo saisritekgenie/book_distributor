@@ -13,7 +13,7 @@ const orderData = {
     document.getElementById("quantity").value
 };
 
-fetch("http://localhost:8081/api/orders",{
+fetch("https://book-distributor.onrender.com/api/orders",{
 
     method:"POST",
 
