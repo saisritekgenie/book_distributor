@@ -18,7 +18,7 @@
 <aside class="sidebar text-white p-3">
 
     <div class="brand d-flex align-items-center gap-2 mb-4">
-        <img src="../images/img.png" class="brand-logo">
+        <img src="../images/img.png" class="brand-logo" onerror="this.src='https://placehold.co/40'">
         <div>
             <h5 class="mb-0">SchoolBook</h5>
             <small class="text-white-50">Admin Panel</small>
@@ -30,9 +30,10 @@
         <a class="nav-link" href="students.html"><i class="bi bi-people"></i> Students</a>
         <a class="nav-link" href="book.html"><i class="bi bi-journal-plus"></i> Add Books</a>
         <a class="nav-link" href="order.html"><i class="bi bi-cart-check"></i> Orders</a>
-        <a class="nav-link" href="#inventory"><i class="bi bi-box"></i> Inventory</a>
-        <a class="nav-link" href="#payments"><i class="bi bi-cash-stack"></i> Payments</a>
-        <a class="nav-link" href="#reports"><i class="bi bi-bar-chart"></i> Reports</a>
+        <a class="nav-link" href="inventory.html"><i class="bi bi-box"></i> Inventory</a>
+        <a class="nav-link" href="payment.html"><i class="bi bi-cash-stack"></i> Payments</a>
+        <a class="nav-link" href="reports.html"><i class="bi bi-bar-chart"></i> Reports</a>
+        <a class="nav-link" href="staff-directory.html"><i class="bi bi-shield-lock"></i> Staff Access</a>
     </nav>
 
 </aside>
@@ -62,7 +63,7 @@
                 </div>
             </div>
 
-            <a href="../login.html" class="btn btn-outline-danger btn-sm ms-2">
+            <a href="../index.html" class="btn btn-outline-danger btn-sm ms-2">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>
         </div>
@@ -120,112 +121,33 @@
 
     </div>
 
-    <!-- INVENTORY -->
-    <section id="inventory" class="mb-4">
-        <h5>Inventory</h5>
-
+    <!-- RECENT ORDERS SUMMARY -->
+    <div class="card p-4 shadow-sm border-0 bg-white rounded-3 mt-4">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-3 gap-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-receipt-cutoff text-primary me-2"></i>Recent System Activity</h5>
+            <div class="input-group input-group-sm" style="max-width: 300px;">
+                <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input id="activitySearch" type="search" class="form-control border-start-0 bg-light" placeholder="Search activity...">
+            </div>
+        </div>
         <div class="table-responsive">
-            <table class="table table-hover bg-white shadow-sm rounded">
-                <thead class="table-light">
+            <table class="table table-sm table-hover align-middle mb-0">
+                <thead>
                     <tr>
-                        <th>Book</th>
-                        <th>Available</th>
-                        <th>Minimum</th>
+                        <th>Order ID</th>
+                        <th>User Name</th>
+                        <th>Amount</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody id="inventoryTableBody">
+                <tbody id="ordersTableBody">
                     <tr>
-                        <td colspan="4" class="text-center text-muted">Loading...</td>
+                        <td colspan="4" class="text-center text-muted">Loading system activity...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </section>
-
-    <!-- PAYMENTS -->
-    <section id="payments" class="mb-4">
-        <h5>Payments</h5>
-
-        <div class="card p-3">
-            <h6>Payment Status</h6>
-            <div class="progress mb-2">
-                <div class="progress-bar bg-success" id="paymentProgressBar"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- REPORTS -->
-    <section id="reports">
-        <h5>Reports</h5>
-
-        <div class="row g-3">
-
-            <div class="col-md-3">
-                <div class="card p-3">
-                    <h6>Revenue</h6>
-                    <h4 id="revenueCount">$0</h4>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card p-3">
-                    <h6>Pending Orders</h6>
-                    <h4 id="pendingOrdersCount">0</h4>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card p-3">
-                    <h6>Low Stock</h6>
-                    <h4 id="criticalStockCount">0</h4>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card p-3">
-                    <h6>Invoice Health</h6>
-                    <h4 id="invoiceHealthCount">0%</h4>
-                </div>
-            </div>
-
-        </div>
-        <div class="row g-3 mt-3">
-            <div class="col-md-5">
-                <div class="card p-3 h-100">
-                    <h5>➕ Register Staff</h5>
-                    <input id="staffName" class="form-control mb-2" placeholder="Staff Name">
-                    <input id="username" class="form-control mb-2" placeholder="Username (Email)">
-                    <input id="password" class="form-control mb-2" placeholder="Password" type="password">
-                    <button class="btn btn-primary w-100 mt-2" onclick="createStaff()">
-                        Register Staff
-                    </button>
-                </div>
-            </div>
-            <div class="col-md-7">
-                <div class="card p-3 h-100">
-                    <h5>👥 Staff Directory & Access Control</h5>
-                    <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
-                        <table class="table table-sm table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Status</th>
-                                    <th class="text-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="staffTableBody">
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted py-3">No staff registered yet</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
 </main>
 

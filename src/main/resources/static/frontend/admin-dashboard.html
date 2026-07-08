@@ -214,12 +214,17 @@
 
             <div class="col-xl-6">
                 <div class="card table-card p-4 shadow-sm bg-white rounded-4" id="orders">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
                         <div>
                             <h5 class="mb-1">Orders Monitoring</h5>
                             <small class="text-muted">Latest order activity from students.</small>
                         </div>
-                        <span class="badge bg-primary">Updated</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input id="ordersSearch" type="search" placeholder="Search orders...">
+                            </div>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-borderless align-middle mb-0">
@@ -241,12 +246,17 @@
 
             <div class="col-xl-6">
                 <div class="card table-card p-4 shadow-sm bg-white rounded-4" id="payments">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
                         <div>
                             <h5 class="mb-1">Payments Monitoring</h5>
                             <small class="text-muted">Recent invoice status and payment dates.</small>
                         </div>
-                        <span class="badge bg-success">Secure</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input id="paymentsSearch" type="search" placeholder="Search payments...">
+                            </div>
+                        </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped align-middle mb-0">

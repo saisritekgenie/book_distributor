@@ -3,20 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management | SchoolBook ERP</title>
-
+    <title>Payments | SchoolBook ERP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
-
 <body>
 
 <div class="d-flex admin-dashboard">
 
 <!-- SIDEBAR -->
 <aside class="sidebar text-white p-3">
-
     <div class="brand d-flex align-items-center gap-2 mb-4">
         <img src="../images/img.png" class="brand-logo" onerror="this.src='https://placehold.co/40'">
         <div>
@@ -24,28 +21,25 @@
             <small class="text-white-50">Admin Panel</small>
         </div>
     </div>
-
     <nav class="nav flex-column gap-2">
         <a class="nav-link" href="admin.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
         <a class="nav-link" href="students.html"><i class="bi bi-people"></i> Students</a>
         <a class="nav-link" href="book.html"><i class="bi bi-journal-plus"></i> Add Books</a>
-        <a class="nav-link active" href="order.html"><i class="bi bi-cart-check"></i> Orders</a>
+        <a class="nav-link" href="order.html"><i class="bi bi-cart-check"></i> Orders</a>
         <a class="nav-link" href="inventory.html"><i class="bi bi-box"></i> Inventory</a>
-        <a class="nav-link" href="payment.html"><i class="bi bi-cash-stack"></i> Payments</a>
+        <a class="nav-link active" href="payment.html"><i class="bi bi-cash-stack"></i> Payments</a>
         <a class="nav-link" href="reports.html"><i class="bi bi-bar-chart"></i> Reports</a>
         <a class="nav-link" href="staff-directory.html"><i class="bi bi-shield-lock"></i> Staff Access</a>
     </nav>
-
 </aside>
 
 <!-- MAIN CONTENT -->
 <main class="content flex-grow-1 p-4">
-
     <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="mb-1">Student Order Directory</h3>
-            <p class="text-muted mb-0">Track student orders, verify status, and manage deliveries</p>
+            <h3 class="mb-1">Payment Status Control</h3>
+            <p class="text-muted mb-0">Track payment status and metrics</p>
         </div>
         <div>
             <a href="../index.html" class="btn btn-outline-danger btn-sm">
@@ -54,34 +48,56 @@
         </div>
     </div>
 
-    <!-- ORDERS LIST TABLE -->
-    <div class="card p-3 shadow-sm">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0 fw-bold"><i class="bi bi-cart-check-fill text-primary me-2"></i>All Orders</h5>
-            <button class="btn btn-outline-secondary btn-sm" onclick="loadOrders()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+    <!-- PAYMENT HEALTH CARD -->
+    <div class="card p-4 shadow-sm border-0 mb-4 bg-white rounded-3">
+        <h5 class="fw-bold mb-3"><i class="bi bi-piggy-bank text-primary me-2"></i>Paid Collection Health</h5>
+        <div class="progress mb-2" style="height: 25px; border-radius: 8px;">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" id="paymentProgressBar" style="width: 0%; font-weight: bold;">0%</div>
         </div>
+        <p class="text-muted small mt-2">Percentage ratio of Paid Orders vs Total Orders generated in this system.</p>
+    </div>
 
+    <!-- SUMMARY SECTION -->
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm border-0 text-center bg-white rounded-3">
+                <h6 class="text-secondary"><i class="bi bi-check-circle-fill text-success"></i> Payment Health Percentage</h6>
+                <h2 class="fw-bold mt-2" id="invoiceHealthCount">0%</h2>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm border-0 text-center bg-white rounded-3">
+                <h6 class="text-secondary"><i class="bi bi-wallet2 text-primary"></i> Total Revenue Gathered</h6>
+                <h2 class="fw-bold mt-2 text-success" id="revenueCount">₹0</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVOICES LIST TABLE -->
+    <div class="card p-4 shadow-sm border-0 bg-white rounded-3 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-file-earmark-text text-primary me-2"></i>Invoice Directory</h5>
+            <button class="btn btn-outline-secondary btn-sm" onclick="refreshDashboard()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead>
                     <tr>
+                        <th>Invoice Number</th>
                         <th>Order ID</th>
-                        <th>Parent Name</th>
-                        <th>Books List</th>
-                        <th>Total Amount</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
+                        <th>Amount</th>
+                        <th>Generated Date</th>
+                        <th class="text-end">Action</th>
                     </tr>
                 </thead>
-                <tbody id="ordersTable">
+                <tbody id="invoicesTableBody">
                     <tr>
-                        <td colspan="6" class="text-center text-muted">Loading orders...</td>
+                        <td colspan="5" class="text-center text-muted">Loading invoices...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
 </main>
 
 </div>
@@ -106,7 +122,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../js/order.js"></script>
-
+<script src="../js/admin.js"></script>
 </body>
 </html>

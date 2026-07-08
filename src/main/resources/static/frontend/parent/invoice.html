@@ -65,13 +65,16 @@
             <!-- Invoice Card -->
             <div class="card invoice-card mb-4">
                 <div class="invoice-header">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h2 class="fw-bold mb-1"><i class="bi bi-receipt-cutoff me-2"></i>Invoice</h2>
-                            <p class="mb-0 opacity-75">School Book Management System</p>
+                            <h4 class="mb-1 text-warning fw-bold" id="invSchoolName">Greenwood International School</h4>
+                            <p class="mb-0 opacity-90 small" id="invSchoolAddress">456 Knowledge Boulevard, Tech City, IN - 500032</p>
+                            <p class="mb-0 opacity-90 small" id="invSchoolContact">Phone: +91 40 1234 5678 | Email: contact@greenwood.edu.in</p>
+                            <p class="mb-0 opacity-95 small fw-bold" id="invSchoolGST">GSTIN: 36AAACG4892J1ZN</p>
                         </div>
                         <div class="text-end">
-                            <h5 class="mb-1" id="invoiceIdDisplay">-</h5>
+                            <h5 class="mb-1 fw-bold" id="invoiceIdDisplay">-</h5>
                             <small id="invoiceDateDisplay">-</small>
                         </div>
                     </div>
@@ -81,13 +84,21 @@
 
                     <!-- Parent/Student Info -->
                     <div class="row mb-4">
-                        <div class="col-6">
+                        <div class="col-6 col-md-3 mb-3">
                             <p class="mb-1 text-muted small">Parent Name</p>
                             <h6 class="fw-bold" id="invParent">-</h6>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 col-md-3 mb-3">
+                            <p class="mb-1 text-muted small">Parent Mobile</p>
+                            <h6 class="fw-bold" id="invParentMobile">-</h6>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
                             <p class="mb-1 text-muted small">Student Name</p>
                             <h6 class="fw-bold" id="invStudent">-</h6>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <p class="mb-1 text-muted small">Section</p>
+                            <h6 class="fw-bold" id="invSection">-</h6>
                         </div>
                     </div>
 
@@ -162,8 +173,40 @@
     // LOAD LATEST INVOICE FROM LOCALSTORAGE
     // =============================================
     document.addEventListener("DOMContentLoaded", () => {
+        let invoice = null;
+        
+        // Read orderId parameter from URL query string
+        const params = new URLSearchParams(window.location.search);
+        const qOrderId = params.get("orderId");
 
-        const invoice = JSON.parse(localStorage.getItem("latestInvoice"));
+        if (qOrderId) {
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            // Match custom ORD string, orderId or standard id keys
+            const found = orders.find(o => 
+                o.id === qOrderId || 
+                o.orderId == qOrderId || 
+                (o.id && o.id.toString() === qOrderId) ||
+                (o.orderId && ("ORD" + (1719758500000 + Number(o.orderId))) === qOrderId)
+            );
+            
+            if (found) {
+                invoice = {
+                    invoiceId: found.id,
+                    invoiceDate: found.date || new Date().toLocaleDateString(),
+                    parentName: found.parent || found.parentName || localStorage.getItem("parentName") || "Parent",
+                    studentName: found.student || found.studentName || localStorage.getItem("studentName") || "Student",
+                    orderId: found.id,
+                    paymentStatus: found.status || "Pending",
+                    paymentMethod: found.paymentMethod || "Online",
+                    books: found.books || [],
+                    totalAmount: found.total
+                };
+            }
+        }
+
+        if (!invoice) {
+            invoice = JSON.parse(localStorage.getItem("latestInvoice"));
+        }
 
         if (!invoice) {
             document.querySelector(".card-body").innerHTML = `
@@ -179,14 +222,66 @@
         document.getElementById("invoiceDateDisplay").textContent = invoice.invoiceDate || "-";
         document.getElementById("invParent").textContent = invoice.parentName || "-";
         document.getElementById("invStudent").textContent = invoice.studentName || "-";
+
+        // Dynamic Student details resolution (Parent Mobile, Section)
+        resolveStudentDetails(invoice);
+
+        async function resolveStudentDetails(inv) {
+            // 1. Try values already on the invoice/order object
+            let resolvedParentMobile = inv.parentMobile || "-";
+            let resolvedSection = inv.section || "-";
+
+            // 2. Try looking up in localStorage student cache
+            if (resolvedParentMobile === "-" || resolvedSection === "-") {
+                const localStudents = JSON.parse(localStorage.getItem("students")) || [];
+                let matched = localStudents.find(s => s.studentName && inv.studentName && s.studentName.toLowerCase().trim() === inv.studentName.toLowerCase().trim());
+                if (matched) {
+                    if (resolvedParentMobile === "-") resolvedParentMobile = matched.phoneNumber || matched.parentMobile || "-";
+                    if (resolvedSection === "-") resolvedSection = matched.section || "-";
+                }
+            }
+
+            // 3. Fallback: Global storage keys if it's the current user
+            if (resolvedParentMobile === "-") {
+                resolvedParentMobile = localStorage.getItem("phoneNumber") || "-";
+            }
+            if (resolvedSection === "-") {
+                resolvedSection = localStorage.getItem("section") || "A";
+            }
+
+            // 4. Try fetching from backend if online
+            if (resolvedParentMobile === "-" || resolvedSection === "-") {
+                try {
+                    const res = await fetch("http://localhost:8081/api/students");
+                    if (res.ok) {
+                        const dbStudents = await res.json();
+                        let dbMatched = dbStudents.find(s => s.studentName && inv.studentName && s.studentName.toLowerCase().trim() === inv.studentName.toLowerCase().trim());
+                        if (dbMatched) {
+                            if (resolvedParentMobile === "-") resolvedParentMobile = dbMatched.parentMobile || "-";
+                            if (resolvedSection === "-") resolvedSection = dbMatched.section || "-";
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Backend offline or unable to fetch students for details resolution", err);
+                }
+            }
+
+            // Render resolved details
+            document.getElementById("invParentMobile").textContent = resolvedParentMobile;
+            document.getElementById("invSection").textContent = resolvedSection;
+        }
+
+        // Dynamic School Details
+        const schoolName = invoice.schoolName || localStorage.getItem("schoolName") || "Greenwood International School";
+        document.getElementById("invSchoolName").textContent = schoolName;
         document.getElementById("invOrderId").textContent = invoice.orderId || "-";
 
         // Payment Badge
         const badgeEl = document.getElementById("invPaymentBadge");
-        if (invoice.paymentStatus === "Paid") {
-            badgeEl.innerHTML = `<span class="status-badge-paid">${invoice.paymentMethod || "-"} — Paid</span>`;
+        if (invoice.paymentStatus === "Paid" || invoice.paymentStatus === "Approved" || invoice.paymentStatus === "Delivered") {
+            badgeEl.innerHTML = `<span class="status-badge-paid">${invoice.paymentMethod || "COD"} — Paid</span>`;
         } else {
-            badgeEl.innerHTML = `<span class="status-badge-pending">${invoice.paymentMethod || "-"} — Pending</span>`;
+            badgeEl.innerHTML = `<span class="status-badge-pending">${invoice.paymentMethod || "COD"} — Pending</span>`;
         }
 
         // Books Table
@@ -196,13 +291,31 @@
         if (books.length === 0) {
             tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted">No books in this order</td></tr>`;
         } else {
-            tbody.innerHTML = books.map((b, i) => `
+            tbody.innerHTML = books.map((b, i) => {
+                let imgUrl = b.image || `../images/textbooks/default.jpg`;
+                let qty = b.qty || 1;
+                let qtyText = qty > 1 ? `<span class="badge bg-secondary ms-2">x${qty}</span>` : "";
+                return `
                 <tr>
                     <td>${i + 1}</td>
-                    <td><strong>${b.name || "-"}</strong></td>
-                    <td class="text-end">₹${b.price || 0}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="${imgUrl}" 
+                                 width="36" 
+                                 height="48" 
+                                 style="object-fit:cover; border-radius: 4px;" 
+                                 class="me-3 border shadow-sm"
+                                 onerror="this.src='https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=100'">
+                            <div>
+                                <strong class="text-dark small d-block">${b.name || "-"}</strong>
+                                <span class="text-muted small">Quantity: ${qty}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end fw-semibold text-dark">₹${b.price || 0}</td>
                 </tr>
-            `).join("");
+                `;
+            }).join("");
         }
 
         // Total
